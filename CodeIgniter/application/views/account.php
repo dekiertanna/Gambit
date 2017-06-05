@@ -10,17 +10,18 @@
     <title>ZTW Projekt Organiser</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.css" rel="stylesheet">
 
+    <?php echo link_tag('css/bootstrap.css'); ?>
     <!-- Custom CSS -->
-    <link href="css/sb-admin-2.css" rel="stylesheet">
+  
+    <?php echo link_tag('css/sb-admin-2.css'); ?>
 
  
 
     <!-- Custom Fonts -->
  
    
-	  <link  href="css/style.css" rel="stylesheet"> <!-- Resource style -->
+      <?php echo link_tag('css/style.css'); ?>
 	  <script src="js/modernizr.js"></script> <!-- Modernizr -->
 
 </head>
@@ -259,7 +260,7 @@
 		<div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
 			<ul class="nav navbar-nav">
 				<li class="active"><a href="#">Dashboard<span style="font-size:16px;" class="pull-right hidden-xs showopacity g_icon g_icon-dashboard"></span></a></li>
-				<li ><a href="#">Kalendarz<span style="font-size:16px;" class="pull-right hidden-xs showopacity g_icon g_icon-calendar"></span></a></li>
+				<li ><a href="<?php echo  site_url('index.php/Calendar/index')?>">Kalendarz<span style="font-size:16px;" class="pull-right hidden-xs showopacity g_icon g_icon-calendar"></span></a></li>
 				<li ><a href="#">Kontakty<span style="font-size:16px;" class="pull-right hidden-xs showopacity g_icon g_icon-user"></span></a></li>
 				
 				<li><a href="#">Notatki<span style="font-size:16px;" class="pull-right hidden-xs showopacity g_icon g_icon-list"></span></a></li>

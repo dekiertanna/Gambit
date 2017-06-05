@@ -7,6 +7,7 @@ class Users extends CI_Controller
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('user');
+        $this->load->helper('url');
 
     }
 
@@ -17,10 +18,11 @@ class Users extends CI_Controller
         {
             $data['user'] = $this->user->getRows(array('id'=>$this->session->userdata('userId')));
             $this->load->view('account',$data);
+            
         }
         else
         {
-            redirect('login');
+            redirect('index.php/Users/login');
         }
     }
 
@@ -56,8 +58,9 @@ class Users extends CI_Controller
                 if($checkLogin)
                 {
                     $this->session->set_userdata('isUserLoggedIn',TRUE);
+                    $this->session->set_userdata('email',$this->input->post('email'));
                     $this->session->set_userdata('userId',$checkLogin['id']);
-                    redirect('account');
+                    redirect('index.php/Users/account');
                 }
                 else
                 {
@@ -65,6 +68,7 @@ class Users extends CI_Controller
                 }
             }
         }
+        $this->load->view('login', $data);
     }
 
     public function registration()
@@ -88,7 +92,7 @@ class Users extends CI_Controller
                 if($insert)
                 {
                     $this->session->set_userdata('success_msg','Registration successful! Please, log in');
-                    redirect ('login');
+                    redirect ('index.php/Users/login');
                 }
                 else
                 {

@@ -2,12 +2,15 @@
 <html lang="en">
 
 <head>
-    <link href='css/fullcalendar.min.css' rel='stylesheet' />
-<link href='css/fullcalendar.print.min.css' rel='stylesheet' media='print' />
-<script src='js/jquery.min.js'></script>
-<script src='js/moment.min.js'></script>
-<script src='js/fullcalendar.min.js'></script>
-<script src='js/calendar.js'></script>
+  
+    <?php echo link_tag('css/fullcalendar.min.css'); ?>
+<link rel="stylesheet" type="text/css" media="print" href="<? echo base_url();?>css/fullcalendar.print.css">
+<script type="text/javascript" src="<?php echo base_url();?>js/jquery.min.js" ></script>
+<script type="text/javascript" src="<?php echo base_url();?>js/moment.min.js" ></script>
+<script type="text/javascript" src="<?php echo base_url();?>js/fullcalendar.min.js" ></script>
+<script type="text/javascript" src="<?php echo base_url();?>js/calendar.js" ></script>
+
+
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,25 +21,68 @@
     <title>SB Admin 2 - Bootstrap Admin Theme</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.css" rel="stylesheet">
 
+    <?php echo link_tag(base_url('css/bootstrap.css')); ?>
 
 
     <!-- Custom CSS -->
-    <link href="css/sb-admin-2.css" rel="stylesheet">
-
+    
+    <?php echo link_tag('css/sb-admin-2.css'); ?>
   
 
     <!-- Custom Fonts -->
 
    
-	  <link  href="css/style.css" rel="stylesheet"> <!-- Resource style -->
-	  <script src="js/modernizr.js"></script> <!-- Modernizr -->
+	  <?php echo link_tag('css/style.css'); ?>
 
+      <script type="text/javascript" src="<?php echo base_url();?>js/modernizr.js" ></script>
 
 </head>
 
 <body>
+
+  <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Add Calendar Event</h4>
+      </div>
+      <div class="modal-body">
+      <?php echo form_open(site_url("index.php/calendar/add_event"), array("class" => "form-horizontal")) ?>
+      <div class="form-group">
+                <label for="p-in" class="col-md-4 label-heading">Event Name</label>
+                <div class="col-md-8 ui-front">
+                    <input type="text" class="form-control" name="name" value="">
+                </div>
+        </div>
+        <div class="form-group">
+                <label for="p-in" class="col-md-4 label-heading">Description</label>
+                <div class="col-md-8 ui-front">
+                    <input type="text" class="form-control" name="description">
+                </div>
+        </div>
+        <div class="form-group">
+                <label for="p-in" class="col-md-4 label-heading">Start Date</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" name="start_date">
+                </div>
+        </div>
+        <div class="form-group">
+                <label for="p-in" class="col-md-4 label-heading">End Date</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" name="end_date">
+                </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <input type="submit" class="btn btn-primary" value="Add Event">
+        <?php echo form_close() ?>
+      </div>
+    </div>
+  </div>
+</div>
 
     <div id="wrapper">
 
@@ -308,9 +354,8 @@
                         <div class="panel-heading">
                              
                             <i class="fa fa-clock-o fa-fw"></i> Kalendarz
-                            <form action="add-event.php">
-                            <button  type="submit" class="btn btn-default">Dodaj</button>
-                            </form>
+                         
+                           
                         </div>
                       
                         
@@ -342,15 +387,56 @@
 
  
     <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+   
+    <script type="text/javascript" src="<?php echo base_url();?>js/bootstrap.min.js" ></script>
 
 
 
 
 
     <!-- Custom Theme JavaScript -->
-    <script src="js/sb-admin-2.js"></script>
 
+    <script type="text/javascript" src="<?php echo base_url();?>js/sb-admin-2.js" ></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    var date_last_clicked = null;
+ $('#calendar').fullCalendar({
+     header: {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'month,basicWeek,basicDay'
+			},
+			navLinks: true, // can click day/week names to navigate views
+			editable: true,
+			eventLimit: true, // allow "more" link when too 
+     eventSources: [
+         {
+             events: function(start, end, timezone, callback) {
+                 $.ajax({
+                 url: 'get_events',
+                 dataType: 'json',
+                 data: {
+                 // our hypothetical feed requires UNIX timestamps
+                 start: start.unix(),
+                 end: end.unix()
+                 },
+                 success: function(msg) {
+                     var events = msg.events;
+                     callback(events);
+                 }
+                 });
+             }
+         },
+     ],
+     dayClick: function(date, jsEvent, view)
+     {
+         date_last_clicked = $(this);
+         $(this).css('background-color','#bed7f3');
+         $('#addModal').modal();
+     }
+ });
+ });
+</script>
 </body>
 
 </html>

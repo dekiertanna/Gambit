@@ -59,6 +59,9 @@
                           
                             </fieldset>
                         </form>
+                        <p> Already have an account?
+                        <a href="<?php echo  'index.php/Users/login'?>">LOG IN</a>
+                        </p>
                     </div>
                 </div>
             </div>

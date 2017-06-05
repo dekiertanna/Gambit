@@ -43,7 +43,7 @@
                         <?php
                         if(!empty($success_msg))
                         {
-                            echo'<p class="statusMsg">'.succsess_msg.'</p>';
+                            echo'<p class="statusMsg">'.$success_msg.'</p>';
                         }
                         elseif(!empty($error_msg))
                         {
